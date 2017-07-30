@@ -1,4 +1,7 @@
-#What is this all about?
+---
+layout: post
+title: What is this all about?
+---
 
 This blog accompanies me while I work on my entry into the [52°North Student Innovation Challenge 2017](http://52north.org/about/other-activities/student-innovation-prize/current-call). This years challenge focuses on connecting the Internet of Things with Sensor Web technology.
 
