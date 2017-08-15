@@ -31,5 +31,15 @@ def create_sensor():
 def create_observation():
     return 'create observation'
 
+@app.route('/api/v1/', methods=['GET'], defaults={'path': ''})
+@app.route('/api/v1/<path:path>', methods=['GET'])
+def redirect_api_calls(path):
+    sos_res = requests.get('http://sos:8080/52n-sos-webapp/api/v1/{}'.format(path), params=request.args.to_dict())
+    app.logger.info(path)
+    app.logger.info(request.args.to_dict())
+    response = make_response(sos_res.text, 200)
+    response.headers['Content-Type'] = 'application/json; charset=utf-8'
+    return response
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80, debug=True, threaded=True)
