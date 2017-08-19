@@ -21,8 +21,21 @@ var form = (function() {
       url: '/api/v1/sensors',
       data: JSON.stringify(data),
       contentType: "application/json; charset=utf-8",
-      dataType: "json"
+      dataType: "json",
+      success: displaySuccess,
+      failure: displayError
     });
+  }
+
+  var displaySuccess = function(data) {
+    $('#success-message').show()
+    $('#success-message').text(JSON.stringify(data))
+  }
+
+  var displayError = function(data) {
+    console.log(data)
+    $('#error-message').show()
+    $('#error-message').text(data)
   }
 
   var init = function() {
