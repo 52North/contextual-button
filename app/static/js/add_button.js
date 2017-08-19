@@ -1,9 +1,13 @@
 var form = (function() {
 
   var setLatLon = function(lat, lon) {
-    document.getElementById('lat').value = lat;
-    document.getElementById('lon').value = lon;
+    $('#lat').val(lat);
+    $('#lon').val(lon);
   };
+
+  var getLatLon = function() {
+    return [$('#lat').val(), $('#lon').val()];
+  }
 
   var submit = function() {
     var data = {};
@@ -30,11 +34,22 @@ var form = (function() {
 
   return {
     setLatLon: setLatLon,
+    getLatLon: getLatLon,
     init: init
   };
 })();
 
 $(document).ready(function() {
-  map.init([51.954952, 7.619977], 13);
   form.init();
+
+  map.init(form.getLatLon(), 16);
+  map.addMarker(form.getLatLon())
+
+  map.onClick(function(e){
+    map.addMarker(e.latlng, true)
+    form.setLatLon(e.latlng.lat, e.latlng.lng)
+  })
+
+
+
 });

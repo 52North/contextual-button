@@ -32,10 +32,10 @@
       <input type="text" id="short_name" name="short_name">
 
       <label for="lat">Lattitude</label>
-      <input type="text" id="lat" name="lat">
+      <input type="text" id="lat" name="lat" value="{{ latlon.lat }}" readonly>
 
       <label for="lon">Longitude</label>
-      <input type="text" id="lon" name="lon">
+      <input type="text" id="lon" name="lon" value="{{ latlon.lon }}" readonly>
 
       <label for="description">Description</label>
       <textarea id="description" name="description" placeholder="A short description of your sensor"></textarea>

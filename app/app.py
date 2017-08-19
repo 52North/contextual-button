@@ -12,7 +12,11 @@ def index():
 
 @app.route('/add_button')
 def add_button():
-    return render_template('add_button.html')
+    # extract lat lon values with fallback to Münster
+    latlon = {}
+    latlon['lat'] = request.args.get('lat', 52)
+    latlon['lon'] = request.args.get('lon', 7)
+    return render_template('add_button.html', latlon=latlon)
 
 
 @app.route("/api/v1/sensors", methods=['POST'])
