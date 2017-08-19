@@ -10,6 +10,11 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/add_button')
+def add_button():
+    return render_template('add_button.html')
+
+
 @app.route("/api/v1/sensors", methods=['POST'])
 def create_sensor():
     sensor = request.get_json()
