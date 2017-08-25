@@ -57,7 +57,7 @@ def create_observation(id):
                         },
                         "type": "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_CountObservation",
                         "procedure": id,
-                        "observedProperty": "http://example.de/button_press",
+                        "observedProperty": "http://example.org/button_press",
                         "featureOfInterest": {
                             "identifier": {
                                 "value": "http://www.52north.org/test/featureOfInterest/9",

@@ -1,4 +1,4 @@
-<sml:PhysicalSystem
+<sml:PhysicalComponent
     gml:id="{{ sensor.id }}"
     xmlns:swes="http://www.opengis.net/swes/2.0"
     xmlns:sos="http://www.opengis.net/sos/2.0"
@@ -29,8 +29,8 @@
     </sml:identification>
     <sml:outputs>
         <sml:OutputList>
-            <sml:output name="http://example.de/button_press">
-              <swe:Count/>
+            <sml:output name="button_press">
+              <swe:Count definition="example.org/button_press"></swe:Count>
             </sml:output>
         </sml:OutputList>
     </sml:outputs>
@@ -48,4 +48,4 @@
         </swe:coordinate>
       </swe:Vector>
      </sml:position>
-</sml:PhysicalSystem>
+</sml:PhysicalComponent>
