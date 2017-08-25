@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, make_response
 from uuid import uuid4
+from datetime import datetime as dt, timezone
 import requests
 
 app = Flask(__name__)
@@ -35,14 +36,65 @@ def create_sensor():
                     }
     sos_res = requests.post(
         'http://sos:8080/52n-sos-webapp/service', json=request_body)
-    response = make_response(sos_res.text, 201)
+    response = make_response(sos_res.text, sos_res.status_code)
     response.headers['Content-Type'] = 'application/json; charset=utf-8'
     return response
 
 
-@app.route('/api/v1/sensors/<int:id>/observation', methods=['POST'])
-def create_observation():
-    return 'create observation'
+@app.route('/api/v1/sensors/<string:id>/observation', methods=['POST'])
+def create_observation(id):
+    uuid = str(uuid4())
+    time = dt.now(timezone.utc).isoformat(timespec='seconds')
+    app.logger.debug(dt.now(timezone.utc).tzinfo)
+    request_body = {"request": "InsertObservation",
+                    "service": "SOS",
+                    "version": "2.0.0",
+                    "offering": "http://www.example.org/offering/{}/observations".format(id),
+                    "observation": {
+                        "identifier": {
+                            "value": uuid,
+                            "codespace": "http://www.opengis.net/def/nil/OGC/0/unknown"
+                        },
+                        "type": "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_CountObservation",
+                        "procedure": id,
+                        "observedProperty": "http://example.de/button_press",
+                        "featureOfInterest": {
+                            "identifier": {
+                                "value": "http://www.52north.org/test/featureOfInterest/9",
+                                "codespace": "http://www.opengis.net/def/nil/OGC/0/unknown"
+                            },
+                            "name": [
+                                {
+                                    "value": "blub",
+                                    "codespace": "http://www.opengis.net/def/nil/OGC/0/unknown"
+                                }
+                            ],
+                            "sampledFeature": [
+                                "http://www.52north.org/test/featureOfInterest/world"
+                            ],
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [
+                                    51.935101100104916,
+                                    7.651968812254194
+                                ],
+                                "crs": {
+                                    "type": "name",
+                                    "properties": {
+                                        "name": "EPSG:4326"
+                                    }
+                                }
+                            }
+                        },
+                        "phenomenonTime": time,
+                        "resultTime": time,
+                        "result": 1
+                    }}
+    sos_res = requests.post(
+        'http://sos:8080/52n-sos-webapp/service', json=request_body)
+    response = make_response(sos_res.text, sos_res.status_code)
+    response.headers['Content-Type'] = 'application/json; charset=utf-8'
+    return response
 
 
 @app.route('/api/v1/', methods=['GET'], defaults={'path': ''})
@@ -50,9 +102,7 @@ def create_observation():
 def redirect_api_calls(path):
     sos_res = requests.get(
         'http://sos:8080/52n-sos-webapp/api/v1/{}'.format(path), params=request.args.to_dict())
-    app.logger.info(path)
-    app.logger.info(request.args.to_dict())
-    response = make_response(sos_res.text, 200)
+    response = make_response(sos_res.text, sos_res.status_code)
     response.headers['Content-Type'] = 'application/json; charset=utf-8'
     return response
 
