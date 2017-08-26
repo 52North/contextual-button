@@ -29,10 +29,15 @@ var map = (function() {
     L.marker(latlon).addTo(_markers);
   }
 
+  var add = function(layer){
+    layer.addTo(_map)
+  }
+
   return {
     init: init,
     onClick: onClick,
     showPopUp: showPopUp,
-    addMarker: addMarker
+    addMarker: addMarker,
+    add: add
   };
 })();

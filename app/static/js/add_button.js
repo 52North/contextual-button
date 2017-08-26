@@ -62,7 +62,4 @@ $(document).ready(function() {
     map.addMarker(e.latlng, true)
     form.setLatLon(e.latlng.lat, e.latlng.lng)
   })
-
-
-
 });

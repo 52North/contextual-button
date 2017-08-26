@@ -85,12 +85,7 @@ class Observation:
             ],
             "geometry": {
                 "type": "Point",
-                "coordinates": [
-                    float(sensor["sml:position"]["swe:Vector"]
-                          ["swe:coordinate"][0]["swe:Quantity"]["swe:value"]),
-                    float(sensor["sml:position"]["swe:Vector"]
-                          ["swe:coordinate"][1]["swe:Quantity"]["swe:value"])
-                ],
+                "coordinates": self._get_coordinates_from_sensor_position(sensor["sml:position"]),
                 "crs": {
                     "type": "name",
                     "properties": {
@@ -100,6 +95,16 @@ class Observation:
             }
         }
         return feature_of_interest
+
+    def _get_coordinates_from_sensor_position(self, position):
+        coordinates = [0] * 2 # init array length 2
+        for coor in position["swe:Vector"]["swe:coordinate"]:
+            value = float(coor["swe:Quantity"]["swe:value"])
+            if coor["@name"] == "easting":
+                coordinates[1] = value
+            elif coor["@name"] == "northing":
+                coordinates[0] = value
+        return coordinates
 
 
 class FeatureOfInterest:
@@ -112,3 +117,23 @@ class FeatureOfInterest:
         }
         return requests.post(
             'http://sos:8080/52n-sos-webapp/service', json=request_body)
+
+    def get_all(self):
+        request_body = {
+            "request": "GetFeatureOfInterest",
+            "service": "SOS",
+            "version": "2.0.0"
+        }
+        sos_res = requests.post(
+            'http://sos:8080/52n-sos-webapp/service', json=request_body)
+        fois = sos_res.json()["featureOfInterest"]
+        results = []
+        for foi in fois:
+            feature = {"type": "Feature",
+            "properties": {}}
+
+            feature["id"] = foi["identifier"]["value"]
+            feature["geometry"] = foi["geometry"]
+            feature["properties"]["name"] = foi["name"]["value"]
+            results.append(feature)
+        return results

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, make_response
-from models import Sensor, Observation
+from models import Sensor, Observation, FeatureOfInterest
 import requests
 
 app = Flask(__name__)
@@ -36,11 +36,18 @@ def create_observation(id):
     return response
 
 
+@app.route('/api/v1/foi', methods=['GET'])
+def getFOIs():
+    sos_res = FeatureOfInterest().get_all()
+    return jsonify(sos_res)
+
+
 @app.route('/api/v1/', methods=['GET'], defaults={'path': ''})
 @app.route('/api/v1/<path:path>', methods=['GET'])
 def redirect_api_calls(path):
     sos_res = requests.get(
-        'http://sos:8080/52n-sos-webapp/api/v1/{}'.format(path), params=request.args.to_dict())
+        'http://sos:8080/52n-sos-webapp/api/v1/{}'.format(path),
+        params=request.args.to_dict())
     response = make_response(sos_res.text, sos_res.status_code)
     response.headers['Content-Type'] = 'application/json; charset=utf-8'
     return response
