@@ -27,10 +27,14 @@
             </sml:identifier>
         </sml:IdentifierList>
     </sml:identification>
+    <sml:featuresOfInterest>
+      <sml:FeatureList definition="http://www.opengis.net/def/featureOfInterest/identifier">
+        <swe:label>featuresOfInterest</swe:label><sml:feature xlink:href="{{ sensor.featureOfInterest }}"/></sml:FeatureList>
+    </sml:featuresOfInterest>
     <sml:outputs>
         <sml:OutputList>
             <sml:output name="button_press">
-              <swe:Count definition="example.org/button_press"></swe:Count>
+              <swe:Count definition="http://example.org/button_press"></swe:Count>
             </sml:output>
         </sml:OutputList>
     </sml:outputs>
