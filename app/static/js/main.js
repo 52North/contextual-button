@@ -21,7 +21,15 @@ $(document).ready(function () {
   api.getFOIs(function (data) {
     map.add(L.geoJSON(data, {
       onEachFeature: function (feature, layer) {
-        layer.bindPopup(feature.properties.name)
+        layer.bindPopup(function () {
+          var popup = document.createElement('div')
+          $.get('/foi_popup',
+          {'foi': feature.id},
+          function (data) {
+            popup.innerHTML = data
+          })
+          return popup
+        })
       }
     }))
   })

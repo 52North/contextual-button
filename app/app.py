@@ -19,6 +19,18 @@ def add_button():
     return render_template('add_button.html', latlon=latlon)
 
 
+@app.route('/foi_popup')
+def foi_popup():
+    args = request.args.to_dict()
+    if 'foi' in args:
+        app.logger.debug(args["foi"])
+        observations = Observation().get_for_foi(args["foi"])
+        app.logger.debug(observations)
+        return render_template("popup.html", observations=observations)
+    else:
+        return ""
+
+
 @app.route("/api/v1/sensors", methods=['POST'])
 def create_sensor():
     sensor = request.get_json()

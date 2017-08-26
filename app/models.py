@@ -39,6 +39,24 @@ class Sensor:
 
 
 class Observation:
+    def get_for_foi(self, foi_id):
+        request_body = {
+              "request": "GetObservation",
+              "service": "SOS",
+              "version": "2.0.0",
+              "featureOfInterest": foi_id
+        }
+        sos_res = requests.post(
+            'http://sos:8080/52n-sos-webapp/service', json=request_body)
+        results = []
+        for observation in sos_res.json()["observations"]:
+            obs = {}
+            obs["id"] = observation["identifier"]["value"]
+            obs["sensor"] = observation["procedure"]
+            obs["time"] = observation["phenomenonTime"]
+            results.append(obs)
+        return results
+
     def create(self, sensor_id):
         uuid = str(uuid4())
         time = dt.now(timezone.utc).isoformat(timespec='seconds')
