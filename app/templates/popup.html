@@ -1,3 +1,31 @@
-{% for item in observations %}
-        <p>{{ item.time }}</p>
-{% endfor %}
+<canvas id="popupChart" class="chart" width="400"></canvas>
+
+<script>
+  console.log('blub')
+
+  var ctx = document.getElementById('popupChart')
+  var chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ data.labels | safe}},
+        datasets: [{
+            label: '# of button presses',
+            data: {{ data.data | safe}},
+            backgroundColor: 'rgb(70, 70, 153)',
+            borderColor: 'rgb(70, 70, 153)'
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+              barPercentage: 1,
+              categoryPercetange: 0.95,
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+  });
+
+</script>

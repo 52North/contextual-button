@@ -23,13 +23,20 @@ $(document).ready(function () {
       onEachFeature: function (feature, layer) {
         layer.bindPopup(function () {
           var popup = document.createElement('div')
+          popup.className = 'chart'
           $.get('/foi_popup',
-          {'foi': feature.id},
-          function (data) {
-            popup.innerHTML = data
-          })
+            {'foi': feature.id,
+             'filter_by': 'hour'},
+            function (data) {
+              popup.innerHTML = data
+              eval(popup.getElementsByTagName('script')[0].text)
+            })
           return popup
-        })
+        },
+        {
+          maxWidth: 'auto'
+        }
+      )
       }
     }))
   })

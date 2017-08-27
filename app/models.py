@@ -41,10 +41,10 @@ class Sensor:
 class Observation:
     def get_for_foi(self, foi_id):
         request_body = {
-              "request": "GetObservation",
-              "service": "SOS",
-              "version": "2.0.0",
-              "featureOfInterest": foi_id
+            "request": "GetObservation",
+            "service": "SOS",
+            "version": "2.0.0",
+            "featureOfInterest": foi_id
         }
         sos_res = requests.post(
             'http://sos:8080/52n-sos-webapp/service', json=request_body)
@@ -56,6 +56,38 @@ class Observation:
             obs["time"] = observation["phenomenonTime"]
             results.append(obs)
         return results
+
+    def get_filtered_for_foi(self, foi_id, filter_by):
+        observations = self.get_for_foi(foi_id)
+        result = {'labels': [],
+                  'data': []}
+        if filter_by == 'hour':
+            result['labels'] = list(range(24))
+            result['data'] = [0] * 24
+            for observation in observations:
+                time = dt.strptime(
+                    observation["time"], "%Y-%m-%dT%H:%M:%S.%fZ")
+                result['data'][time.hour] = result['data'][time.hour] + 1
+        elif filter_by == 'wday':
+            result['labels'] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
+                                'Friday', 'Saturday', 'Sunday']
+            result['data'] = [0] * 7
+            for observation in observations:
+                time = dt.strptime(
+                    observation["time"], "%Y-%m-%dT%H:%M:%S.%fZ")
+                result['data'][time.weekday()] = result['data'][time.weekday()] + 1
+        elif filter_by == 'day':
+            for observation in observations:
+                time = dt.strptime(
+                    observation["time"], "%Y-%m-%dT%H:%M:%S.%fZ")
+                date = time.strftime("%Y-%m-%d")
+                if date in result['labels']:
+                    index = result['labels'].index(date)
+                    result['data'][index] = result['data'][index] + 1
+                else:
+                    result['labels'].append(date)
+                    result['data'].append(1)
+        return result
 
     def create(self, sensor_id):
         uuid = str(uuid4())
@@ -115,7 +147,7 @@ class Observation:
         return feature_of_interest
 
     def _get_coordinates_from_sensor_position(self, position):
-        coordinates = [0] * 2 # init array length 2
+        coordinates = [0] * 2  # init array length 2
         for coor in position["swe:Vector"]["swe:coordinate"]:
             value = float(coor["swe:Quantity"]["swe:value"])
             if coor["@name"] == "easting":
@@ -148,8 +180,7 @@ class FeatureOfInterest:
         results = []
         for foi in fois:
             feature = {"type": "Feature",
-            "properties": {}}
-
+                       "properties": {}}
             feature["id"] = foi["identifier"]["value"]
             feature["geometry"] = foi["geometry"]
             feature["properties"]["name"] = foi["name"]["value"]

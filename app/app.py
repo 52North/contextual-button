@@ -23,10 +23,10 @@ def add_button():
 def foi_popup():
     args = request.args.to_dict()
     if 'foi' in args:
-        app.logger.debug(args["foi"])
-        observations = Observation().get_for_foi(args["foi"])
-        app.logger.debug(observations)
-        return render_template("popup.html", observations=observations)
+        foi = args["foi"]
+        filter_by = args.get("filter_by")
+        data = Observation().get_filtered_for_foi(foi, filter_by)
+        return render_template("popup.html", data=data)
     else:
         return ""
 
