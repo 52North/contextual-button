@@ -107,10 +107,10 @@ The image above shows how to wire the button. My setup not only contains the but
 
 The code that is needed to run the button can be found in the contextual_button folder. To get it running you simply have to fill in the correct parameters for your environment on top of the script and upload it to the device.
 ```C
-const char* ssid = "SSID";
-const char* password = "password";
-const char* baseUrl = "http://example.org";
-const char* sensorID = "sensor-example-id";
+const char ssid[] = "SSID";
+const char password[] = "password";
+const char baseUrl[] = "http://example.org";
+const char sensorID[] = "sensor-example-id";
 ```
 
 To get the code running you might have to install the Arduino libraries for the ESP8266 first. You will find an explanation of how that works [here](https://github.com/esp8266/Arduino)

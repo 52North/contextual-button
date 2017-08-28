@@ -1,10 +1,10 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 
-const char* ssid = "SSID";
-const char* password = "password";
-const char* baseUrl = "http://example.org";
-const char* sensorID = "sensor-example-id";
+const char ssid[] = "SSID";
+const char password[] = "password";
+const char baseUrl[] = "http://example.org";
+const char sensorID[] = "sensor-example-id";
 
 const int button = 4;     
 const int red =  0;
@@ -37,7 +37,13 @@ void loop() {
     Serial.println("Connected");
     
     HTTPClient http;
-    http.begin(baseUrl + "/api/v1/sensors/" + sensorID + "/observations");
+    char url[sizeof(baseUrl)+sizeof("/api/v1/sensors/")+sizeof(sensorID)+ sizeof("/observations")];
+    url[0] = '\0';
+    strcat(url, baseUrl);
+    strcat(url, "/api/v1/sensors/");
+    strcat(url, sensorID);
+    strcat(url, "/observations");
+    http.begin(url);
     int httpCode = http.POST("");
     Serial.println(httpCode);
     digitalWrite(yellow, LOW);
