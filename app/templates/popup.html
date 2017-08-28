@@ -1,9 +1,9 @@
-<canvas id="popupChart" class="chart" width="400"></canvas>
+<canvas id="popupChart{{ popup_id }}" class="chart" width="400"></canvas>
 
 <script>
   console.log('blub')
 
-  var ctx = document.getElementById('popupChart')
+  var ctx = document.getElementById('popupChart{{ popup_id }}')
   var chart = new Chart(ctx, {
     type: 'bar',
     data: {

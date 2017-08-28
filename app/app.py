@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, make_response
 from models import Sensor, Observation, FeatureOfInterest
 import requests
+import random
 
 app = Flask(__name__)
 
@@ -25,8 +26,9 @@ def foi_popup():
     if 'foi' in args:
         foi = args["foi"]
         filter_by = args.get("filter_by")
+        popup_id = random.randrange(1, 100)
         data = Observation().get_filtered_for_foi(foi, filter_by)
-        return render_template("popup.html", data=data)
+        return render_template("popup.html", data=data, popup_id=popup_id)
     else:
         return ""
 
