@@ -53,7 +53,7 @@ def create_sensor():
     return response
 
 
-@app.route('/api/v1/sensors/<string:id>/observation', methods=['POST'])
+@app.route('/api/v1/sensors/<string:id>/observations', methods=['POST'])
 def create_observation(id):
     sos_res = Observation().create(id)
     response = make_response(sos_res.text, sos_res.status_code)
@@ -62,7 +62,7 @@ def create_observation(id):
 
 
 @app.route('/api/v1/foi', methods=['GET'])
-def getFOIs():
+def get_fois():
     sos_res = FeatureOfInterest().get_all()
     return jsonify(sos_res)
 
