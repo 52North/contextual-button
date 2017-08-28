@@ -28,7 +28,7 @@ var form = (function () {
 
   var displaySuccess = function(data) {
     $('#success-message').show()
-    $('#success-message').text(JSON.stringify(data))
+    $('#success-message').text('The Button was created successfully with the ID: ' + data.assignedProcedure)
   }
 
   var displayError = function(data) {
