@@ -28,9 +28,20 @@ def foi_popup():
         filter_by = args.get("filter_by")
         popup_id = random.randrange(1, 100)
         data = Observation().get_filtered_for_foi(foi, filter_by)
-        return render_template("popup.html", data=data, popup_id=popup_id)
+        return render_template("popup.html", data=data, foi=foi, popup_id=popup_id)
     else:
         return ""
+
+
+@app.route('/foi_popup/data')
+def foi_popup_data():
+    data = []
+    args = request.args.to_dict()
+    if 'foi' in args:
+        foi = args["foi"]
+        filter_by = args.get("filter_by")
+        data = Observation().get_filtered_for_foi(foi, filter_by)
+    return jsonify(data)
 
 
 @app.route("/api/v1/sensors", methods=['POST'])

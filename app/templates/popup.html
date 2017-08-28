@@ -1,7 +1,11 @@
+<select id="filter-selector{{ popup_id }}">
+  <option value="hour">by Hour</option>
+  <option value="wday">by Weekday</option>
+  <option value="date">by Date</option>
+</select>
 <canvas id="popupChart{{ popup_id }}" class="chart" width="400"></canvas>
 
 <script>
-  console.log('blub')
 
   var ctx = document.getElementById('popupChart{{ popup_id }}')
   var chart = new Chart(ctx, {
@@ -26,6 +30,18 @@
             }]
         }
     }
+  });
+
+  $( '#filter-selector{{ popup_id }}' ).change(function() {
+    $.get('/foi_popup/data', {
+      'foi': '{{ foi }}',
+      'filter_by': $( this ).val()},
+      function (data) {
+        chart.data.labels = data.labels
+        chart.data.datasets[0].data = data.data
+        chart.update()
+      }
+    )
   });
 
 </script>

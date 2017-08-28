@@ -76,7 +76,7 @@ class Observation:
                 time = dt.strptime(
                     observation["time"], "%Y-%m-%dT%H:%M:%S.%fZ")
                 result['data'][time.weekday()] = result['data'][time.weekday()] + 1
-        elif filter_by == 'day':
+        elif filter_by == 'date':
             for observation in observations:
                 time = dt.strptime(
                     observation["time"], "%Y-%m-%dT%H:%M:%S.%fZ")
