@@ -53,8 +53,8 @@ POST http://example.org/api/v1/sensors
   "long_name":"long very detailed name",
   "short_name":"shrt nm",
 	"description":"A description of the sensor",
-	"lat": 7.2,
-	"lon": 52
+	"lat": 51.963545851239274,
+	"lon": 7.623589038848878
 }
 ```
 
@@ -100,10 +100,10 @@ when it is pressed, it makes a POST request to the observation route specified a
 
 For the prototype, I used an [NodeMCU v1.0](https://en.wikipedia.org/wiki/NodeMCU), because it has a USB port, which makes it easier to deploy code to it. For the final version the smaller ESP8266 ESP-01 might be a better option.
 
-(Image)
-TODO add Image
+![Button Circuit](button_circuit.png)
+(Image created with [http://fritzing.org](http://fritzing.org))
 
-I setup my board with a button and three LEDs that indicate the state of the request (yellow = connecting, green = success, red = failure). While the LEDs are not really necessary, they help with debugging.
+The image above shows how to wire the button. My setup not only contains the button but also three LEDs that indicate the state of the request (yellow = connecting, green = success, red = failure). While the LEDs are not really necessary, they help with debugging.
 
 The code that is needed to run the button can be found in the contextual_button folder. To get it running you simply have to fill in the correct parameters for your environment on top of the script and upload it to the device.
 ```C
