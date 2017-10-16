@@ -114,3 +114,8 @@ const char sensorID[] = "sensor-example-id";
 ```
 
 To get the code running you might have to install the Arduino libraries for the ESP8266 first. You will find an explanation of how that works [here](https://github.com/esp8266/Arduino)
+
+## Future Work
+* Use a preconfigured SOS so it does not have to be exposed externaly.
+* Currently the Flask application runs on the built-in development server which is not intended for productive use. For a productive deployment a differetn solution should be found. Details can be found [here](http://flask.pocoo.org/docs/0.12/deploying/)
+* Refactor the access to the SOS transactional API.
