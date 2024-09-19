@@ -1,3 +1,7 @@
+# ARCHIVED
+
+This project is no longer maintained and will not receive any further updates. If you plan to continue using it, please be aware that future security issues will not be addressed.
+
 # Contextual Button
 
 This project was created as part of the [52°North Student Innovation Challenge 2017](http://52north.org/about/other-activities/student-innovation-prize/current-call). This years challenge focused on connecting the Internet of Things with Sensor Web technologies.
